@@ -1,5 +1,6 @@
-resource "huggingface_endpoint" "product_identification_reran_soy" {
+resource "huggingface_endpoint" "example" {
   name = "product-identification-reran-soy"
+  type = "private"
 
   compute = {
     accelerator   = "gpu"
@@ -16,7 +17,11 @@ resource "huggingface_endpoint" "product_identification_reran_soy" {
   }
 
   model = {
-    framework = "pytorch"
+    framework  = "pytorch"
+    repository = "sentence-transformers/stsb-roberta-base"
+    task       = "text-classification"
+    revision   = "main"
+    env        = {}
     image = {
       vllm = {
         port                 = 8000
@@ -25,20 +30,10 @@ resource "huggingface_endpoint" "product_identification_reran_soy" {
         kv_cache_dtype       = "auto"
       }
     }
-    env        = {}
-    repository = "sentence-transformers/stsb-roberta-base"
-    task       = "text-classification"
-    revision   = "main"
   }
 
   cloud = {
     region = "us-east-1"
     vendor = "aws"
   }
-
-  type = "private"
-}
-
-output "product_identification_reran_soy" {
-  value = huggingface_endpoint.product_identification_reran_soy
 }

@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gorgias-oss/huggingface-endpoints-client-go"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/issamemari/huggingface-endpoints-client-go"
 )
 
 var (
@@ -54,6 +54,7 @@ func (r *endpointResource) Metadata(_ context.Context, req resource.MetadataRequ
 
 func (r *endpointResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: "Manages a Hugging Face Inference Endpoint.",
 		Attributes: map[string]schema.Attribute{
 			"account_id": schema.StringAttribute{
 				Optional: true,
