@@ -264,4 +264,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 - Built using the [Terraform Plugin Framework](https://github.com/hashicorp/terraform-plugin-framework)
-- Uses the [Hugging Face Endpoints Client for Go](https://github.com/issamemari/huggingface-endpoints-client-go)
+- Uses the [Hugging Face Endpoints Client for Go](https://github.com/gorgias-oss/huggingface-endpoints-client-go)

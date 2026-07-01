@@ -10,7 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-	"github.com/issamemari/huggingface-endpoints-client-go"
+	"github.com/gorgias-oss/huggingface-endpoints-client-go"
 )
 
 var (
@@ -38,16 +38,20 @@ func (p *huggingfaceProvider) Metadata(_ context.Context, _ provider.MetadataReq
 // Schema defines the provider-level schema for configuration data.
 func (p *huggingfaceProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: "Manage Hugging Face Inference Endpoints via the Hugging Face Endpoints API.",
 		Attributes: map[string]schema.Attribute{
 			"host": schema.StringAttribute{
-				Optional: true,
+				MarkdownDescription: "Base URL of the Hugging Face Endpoints API. Defaults to the public endpoint if omitted.",
+				Optional:            true,
 			},
 			"namespace": schema.StringAttribute{
-				Optional: true,
+				MarkdownDescription: "Hugging Face namespace (user or organization) that owns the endpoints.",
+				Optional:            true,
 			},
 			"token": schema.StringAttribute{
-				Optional:  true,
-				Sensitive: true,
+				MarkdownDescription: "Hugging Face API token used to authenticate requests.",
+				Optional:            true,
+				Sensitive:           true,
 			},
 		},
 	}
