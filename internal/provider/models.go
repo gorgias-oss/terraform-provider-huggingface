@@ -84,7 +84,6 @@ type TgiNeuron struct {
 	HfNumCores            *int        `tfsdk:"hf_num_cores"`
 }
 
-
 type Tgi struct {
 	HealthRoute           *string     `tfsdk:"health_route"`
 	Port                  types.Int64 `tfsdk:"port"`
@@ -140,11 +139,11 @@ type Private struct {
 }
 
 type Vllm struct {
-	HealthRoute          *string     `tfsdk:"health_route"`
-	Port                 types.Int64 `tfsdk:"port"`
-	URL                  string      `tfsdk:"url"`
-	KvCacheDtype         *string     `tfsdk:"kv_cache_dtype"`
-	MaxNumBatchedTokens  *int        `tfsdk:"max_num_batched_tokens"`
-	MaxNumSeqs           *int        `tfsdk:"max_num_seqs"`
-	TensorParallelSize   *int        `tfsdk:"tensor_parallel_size"`
+	HealthRoute         *string     `tfsdk:"health_route"`
+	Port                types.Int64 `tfsdk:"port"`
+	URL                 string      `tfsdk:"url"`
+	KvCacheDtype        *string     `tfsdk:"kv_cache_dtype"`
+	MaxNumBatchedTokens *int        `tfsdk:"max_num_batched_tokens"`
+	MaxNumSeqs          *int        `tfsdk:"max_num_seqs"`
+	TensorParallelSize  *int        `tfsdk:"tensor_parallel_size"`
 }

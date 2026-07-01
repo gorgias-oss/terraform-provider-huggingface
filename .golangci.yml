@@ -1,27 +1,34 @@
-# Visit https://golangci-lint.run/ for usage documentation
-# and information on other useful linters
-issues:
-  max-per-linter: 0
-  max-same-issues: 0
+# Visit https://golangci-lint.run/ for usage documentation and information on
+# other useful linters. Config format is golangci-lint v2 (see the `version`
+# pinned in .github/workflows/test.yml).
+version: "2"
 
 linters:
-  disable-all: true
+  # Start from a clean slate and opt in to the linters we want.
+  default: none
   enable:
+    - copyloopvar # successor to the deprecated exportloopref
     - durationcheck
     - errcheck
-    - exportloopref
     - forcetypeassert
     - godot
-    - gofmt
-    - gosimple
+    - govet
     - ineffassign
     - makezero
     - misspell
     - nilerr
     - predeclared
-    - staticcheck
-    - tenv
+    - staticcheck # gosimple is folded into staticcheck in v2
     - unconvert
     - unparam
     - unused
-    - vet
+    - usetesting # successor to the deprecated tenv
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
+
+# gofmt moved to the dedicated formatters section in golangci-lint v2.
+formatters:
+  enable:
+    - gofmt
