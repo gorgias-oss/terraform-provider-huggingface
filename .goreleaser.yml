@@ -2,7 +2,7 @@
 #
 # Required secrets (set in the GitHub repo / org settings):
 #   GPG_PRIVATE_KEY  — ASCII-armored, exported private key
-#   PASSPHRASE       — passphrase for the key (empty if key is unencrypted)
+#   GPG_PASSPHRASE   — passphrase for the key (empty if key is unencrypted)
 #
 # Driven by .github/workflows/release.yml on `v*` tags.
 # Visit https://goreleaser.com for documentation on how to customize this behavior.
