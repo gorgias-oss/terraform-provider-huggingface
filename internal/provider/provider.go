@@ -4,13 +4,13 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/gorgias-oss/huggingface-endpoints-client-go"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-	"github.com/gorgias-oss/huggingface-endpoints-client-go"
 )
 
 var (
