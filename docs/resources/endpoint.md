@@ -56,7 +56,17 @@ Required:
 
 Optional:
 
+- `measure` (Attributes) (see [below for nested schema](#nestedatt--compute--scaling--measure))
 - `scale_to_zero_timeout` (Number)
+
+<a id="nestedatt--compute--scaling--measure"></a>
+### Nested Schema for `compute.scaling.measure`
+
+Optional:
+
+- `hardware_usage` (Number)
+- `pending_requests` (Number)
+
 
 
 
@@ -86,7 +96,7 @@ Optional:
 - `tei` (Attributes) (see [below for nested schema](#nestedatt--model--image--tei))
 - `tgi` (Attributes) (see [below for nested schema](#nestedatt--model--image--tgi))
 - `tgi_neuron` (Attributes) (see [below for nested schema](#nestedatt--model--image--tgi_neuron))
-- `tgi_tpu` (Attributes) (see [below for nested schema](#nestedatt--model--image--tgi_tpu))
+- `vllm` (Attributes) (see [below for nested schema](#nestedatt--model--image--vllm))
 
 <a id="nestedatt--model--image--custom"></a>
 ### Nested Schema for `model.image.custom`
@@ -187,8 +197,8 @@ Optional:
 - `port` (Number)
 
 
-<a id="nestedatt--model--image--tgi_tpu"></a>
-### Nested Schema for `model.image.tgi_tpu`
+<a id="nestedatt--model--image--vllm"></a>
+### Nested Schema for `model.image.vllm`
 
 Required:
 
@@ -196,11 +206,9 @@ Required:
 
 Optional:
 
-- `diable_custom_kernels` (Boolean)
 - `health_route` (String)
-- `max_batch_prefill_tokens` (Number)
-- `max_batch_total_tokens` (Number)
-- `max_input_length` (Number)
-- `max_total_tokens` (Number)
+- `kv_cache_dtype` (String)
+- `max_num_batched_tokens` (Number)
+- `max_num_seqs` (Number)
 - `port` (Number)
-- `quantize` (String)
+- `tensor_parallel_size` (Number)
