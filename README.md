@@ -26,7 +26,7 @@ A Terraform provider for managing Hugging Face Inference Endpoints, enabling Inf
 terraform {
   required_providers {
     huggingface = {
-      source  = "issamemari/huggingface"
+      source  = "gorgias-oss/huggingface"
       version = "~> 0.1"
     }
   }
@@ -37,7 +37,7 @@ terraform {
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/issamemari/terraform-provider-huggingface.git
+git clone https://github.com/gorgias-oss/terraform-provider-huggingface.git
 cd terraform-provider-huggingface
 ```
 
@@ -48,8 +48,8 @@ go build -o terraform-provider-huggingface
 
 3. Install the provider locally:
 ```bash
-mkdir -p ~/.terraform.d/plugins/github.com/issamemari/huggingface/0.1/darwin_amd64
-mv terraform-provider-huggingface ~/.terraform.d/plugins/github.com/issamemari/huggingface/0.1/darwin_amd64/
+mkdir -p ~/.terraform.d/plugins/github.com/gorgias-oss/huggingface/0.1/darwin_amd64
+mv terraform-provider-huggingface ~/.terraform.d/plugins/github.com/gorgias-oss/huggingface/0.1/darwin_amd64/
 ```
 
 ## Usage
