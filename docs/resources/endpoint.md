@@ -253,4 +253,5 @@ Optional:
 - `max_num_batched_tokens` (Number)
 - `max_num_seqs` (Number)
 - `port` (Number)
+- `server_args` (List of String)
 - `tensor_parallel_size` (Number)

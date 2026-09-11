@@ -146,4 +146,5 @@ type Vllm struct {
 	MaxNumBatchedTokens *int        `tfsdk:"max_num_batched_tokens"`
 	MaxNumSeqs          *int        `tfsdk:"max_num_seqs"`
 	TensorParallelSize  *int        `tfsdk:"tensor_parallel_size"`
+	ServerArgs          []string    `tfsdk:"server_args"`
 }

@@ -286,6 +286,10 @@ func (r *endpointResource) Schema(_ context.Context, _ resource.SchemaRequest, r
 									"tensor_parallel_size": schema.Int64Attribute{
 										Optional: true,
 									},
+									"server_args": schema.ListAttribute{
+										Optional:    true,
+										ElementType: types.StringType,
+									},
 								},
 							},
 						},
@@ -432,6 +436,7 @@ func clientEndpointToProviderEndpoint(endpoint huggingface.EndpointDetails) endp
 				MaxNumBatchedTokens: endpoint.Model.Image.Vllm.MaxNumBatchedTokens,
 				MaxNumSeqs:          endpoint.Model.Image.Vllm.MaxNumSeqs,
 				TensorParallelSize:  endpoint.Model.Image.Vllm.TensorParallelSize,
+				ServerArgs:          endpoint.Model.Image.Vllm.ServerArgs,
 			},
 		}
 	}
@@ -593,6 +598,7 @@ func providerEndpointToCreateEndpointRequest(endpoint endpointResourceModel) hug
 				MaxNumBatchedTokens: endpoint.Model.Image.Vllm.MaxNumBatchedTokens,
 				MaxNumSeqs:          endpoint.Model.Image.Vllm.MaxNumSeqs,
 				TensorParallelSize:  endpoint.Model.Image.Vllm.TensorParallelSize,
+				ServerArgs:          endpoint.Model.Image.Vllm.ServerArgs,
 			},
 		}
 	}
@@ -749,6 +755,7 @@ func providerEndpointToUpdateEndpointRequest(endpoint endpointResourceModel) hug
 				MaxNumBatchedTokens: endpoint.Model.Image.Vllm.MaxNumBatchedTokens,
 				MaxNumSeqs:          endpoint.Model.Image.Vllm.MaxNumSeqs,
 				TensorParallelSize:  endpoint.Model.Image.Vllm.TensorParallelSize,
+				ServerArgs:          endpoint.Model.Image.Vllm.ServerArgs,
 			},
 		}
 	}
