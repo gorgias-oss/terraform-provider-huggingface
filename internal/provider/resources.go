@@ -286,6 +286,21 @@ func (r *endpointResource) Schema(_ context.Context, _ resource.SchemaRequest, r
 									"tensor_parallel_size": schema.Int64Attribute{
 										Optional: true,
 									},
+									"max_model_len": schema.Int64Attribute{
+										Optional: true,
+									},
+									"gpu_memory_utilization": schema.Float64Attribute{
+										Optional: true,
+									},
+									"enforce_eager": schema.BoolAttribute{
+										Optional: true,
+									},
+									"block_size": schema.Int64Attribute{
+										Optional: true,
+									},
+									"swap_space": schema.Int64Attribute{
+										Optional: true,
+									},
 									"server_args": schema.ListAttribute{
 										Optional:    true,
 										ElementType: types.StringType,
@@ -429,14 +444,19 @@ func clientEndpointToProviderEndpoint(endpoint huggingface.EndpointDetails) endp
 		}
 		image = Image{
 			Vllm: &Vllm{
-				HealthRoute:         endpoint.Model.Image.Vllm.HealthRoute,
-				Port:                types.Int64PointerValue(port64),
-				URL:                 endpoint.Model.Image.Vllm.URL,
-				KvCacheDtype:        endpoint.Model.Image.Vllm.KvCacheDtype,
-				MaxNumBatchedTokens: endpoint.Model.Image.Vllm.MaxNumBatchedTokens,
-				MaxNumSeqs:          endpoint.Model.Image.Vllm.MaxNumSeqs,
-				TensorParallelSize:  endpoint.Model.Image.Vllm.TensorParallelSize,
-				ServerArgs:          endpoint.Model.Image.Vllm.ServerArgs,
+				HealthRoute:          endpoint.Model.Image.Vllm.HealthRoute,
+				Port:                 types.Int64PointerValue(port64),
+				URL:                  endpoint.Model.Image.Vllm.URL,
+				KvCacheDtype:         endpoint.Model.Image.Vllm.KvCacheDtype,
+				MaxNumBatchedTokens:  endpoint.Model.Image.Vllm.MaxNumBatchedTokens,
+				MaxNumSeqs:           endpoint.Model.Image.Vllm.MaxNumSeqs,
+				TensorParallelSize:   endpoint.Model.Image.Vllm.TensorParallelSize,
+				MaxModelLen:          endpoint.Model.Image.Vllm.MaxModelLen,
+				GpuMemoryUtilization: endpoint.Model.Image.Vllm.GpuMemoryUtilization,
+				EnforceEager:         endpoint.Model.Image.Vllm.EnforceEager,
+				BlockSize:            endpoint.Model.Image.Vllm.BlockSize,
+				SwapSpace:            endpoint.Model.Image.Vllm.SwapSpace,
+				ServerArgs:           endpoint.Model.Image.Vllm.ServerArgs,
 			},
 		}
 	}
@@ -591,14 +611,19 @@ func providerEndpointToCreateEndpointRequest(endpoint endpointResourceModel) hug
 		}
 		image = huggingface.Image{
 			Vllm: &huggingface.Vllm{
-				HealthRoute:         endpoint.Model.Image.Vllm.HealthRoute,
-				Port:                port,
-				URL:                 endpoint.Model.Image.Vllm.URL,
-				KvCacheDtype:        endpoint.Model.Image.Vllm.KvCacheDtype,
-				MaxNumBatchedTokens: endpoint.Model.Image.Vllm.MaxNumBatchedTokens,
-				MaxNumSeqs:          endpoint.Model.Image.Vllm.MaxNumSeqs,
-				TensorParallelSize:  endpoint.Model.Image.Vllm.TensorParallelSize,
-				ServerArgs:          endpoint.Model.Image.Vllm.ServerArgs,
+				HealthRoute:          endpoint.Model.Image.Vllm.HealthRoute,
+				Port:                 port,
+				URL:                  endpoint.Model.Image.Vllm.URL,
+				KvCacheDtype:         endpoint.Model.Image.Vllm.KvCacheDtype,
+				MaxNumBatchedTokens:  endpoint.Model.Image.Vllm.MaxNumBatchedTokens,
+				MaxNumSeqs:           endpoint.Model.Image.Vllm.MaxNumSeqs,
+				TensorParallelSize:   endpoint.Model.Image.Vllm.TensorParallelSize,
+				MaxModelLen:          endpoint.Model.Image.Vllm.MaxModelLen,
+				GpuMemoryUtilization: endpoint.Model.Image.Vllm.GpuMemoryUtilization,
+				EnforceEager:         endpoint.Model.Image.Vllm.EnforceEager,
+				BlockSize:            endpoint.Model.Image.Vllm.BlockSize,
+				SwapSpace:            endpoint.Model.Image.Vllm.SwapSpace,
+				ServerArgs:           endpoint.Model.Image.Vllm.ServerArgs,
 			},
 		}
 	}
@@ -748,14 +773,19 @@ func providerEndpointToUpdateEndpointRequest(endpoint endpointResourceModel) hug
 		}
 		image = huggingface.Image{
 			Vllm: &huggingface.Vllm{
-				HealthRoute:         endpoint.Model.Image.Vllm.HealthRoute,
-				Port:                port,
-				URL:                 endpoint.Model.Image.Vllm.URL,
-				KvCacheDtype:        endpoint.Model.Image.Vllm.KvCacheDtype,
-				MaxNumBatchedTokens: endpoint.Model.Image.Vllm.MaxNumBatchedTokens,
-				MaxNumSeqs:          endpoint.Model.Image.Vllm.MaxNumSeqs,
-				TensorParallelSize:  endpoint.Model.Image.Vllm.TensorParallelSize,
-				ServerArgs:          endpoint.Model.Image.Vllm.ServerArgs,
+				HealthRoute:          endpoint.Model.Image.Vllm.HealthRoute,
+				Port:                 port,
+				URL:                  endpoint.Model.Image.Vllm.URL,
+				KvCacheDtype:         endpoint.Model.Image.Vllm.KvCacheDtype,
+				MaxNumBatchedTokens:  endpoint.Model.Image.Vllm.MaxNumBatchedTokens,
+				MaxNumSeqs:           endpoint.Model.Image.Vllm.MaxNumSeqs,
+				TensorParallelSize:   endpoint.Model.Image.Vllm.TensorParallelSize,
+				MaxModelLen:          endpoint.Model.Image.Vllm.MaxModelLen,
+				GpuMemoryUtilization: endpoint.Model.Image.Vllm.GpuMemoryUtilization,
+				EnforceEager:         endpoint.Model.Image.Vllm.EnforceEager,
+				BlockSize:            endpoint.Model.Image.Vllm.BlockSize,
+				SwapSpace:            endpoint.Model.Image.Vllm.SwapSpace,
+				ServerArgs:           endpoint.Model.Image.Vllm.ServerArgs,
 			},
 		}
 	}
@@ -797,6 +827,10 @@ func providerEndpointToUpdateEndpointRequest(endpoint endpointResourceModel) hug
 			Env:        endpoint.Model.Env,
 		},
 		Type: endpoint.Type.ValueStringPointer(),
+		Provider: &huggingface.Provider{
+			Region: endpoint.Cloud.Region,
+			Vendor: endpoint.Cloud.Vendor,
+		},
 	}
 
 	return huggingfaceEndpoint

@@ -139,12 +139,17 @@ type Private struct {
 }
 
 type Vllm struct {
-	HealthRoute         *string     `tfsdk:"health_route"`
-	Port                types.Int64 `tfsdk:"port"`
-	URL                 string      `tfsdk:"url"`
-	KvCacheDtype        *string     `tfsdk:"kv_cache_dtype"`
-	MaxNumBatchedTokens *int        `tfsdk:"max_num_batched_tokens"`
-	MaxNumSeqs          *int        `tfsdk:"max_num_seqs"`
-	TensorParallelSize  *int        `tfsdk:"tensor_parallel_size"`
-	ServerArgs          []string    `tfsdk:"server_args"`
+	HealthRoute          *string     `tfsdk:"health_route"`
+	Port                 types.Int64 `tfsdk:"port"`
+	URL                  string      `tfsdk:"url"`
+	KvCacheDtype         *string     `tfsdk:"kv_cache_dtype"`
+	MaxNumBatchedTokens  *int        `tfsdk:"max_num_batched_tokens"`
+	MaxNumSeqs           *int        `tfsdk:"max_num_seqs"`
+	TensorParallelSize   *int        `tfsdk:"tensor_parallel_size"`
+	MaxModelLen          *int        `tfsdk:"max_model_len"`
+	GpuMemoryUtilization *float64    `tfsdk:"gpu_memory_utilization"`
+	EnforceEager         *bool       `tfsdk:"enforce_eager"`
+	BlockSize            *int        `tfsdk:"block_size"`
+	SwapSpace            *int        `tfsdk:"swap_space"`
+	ServerArgs           []string    `tfsdk:"server_args"`
 }
