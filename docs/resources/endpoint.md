@@ -248,9 +248,15 @@ Required:
 
 Optional:
 
+- `block_size` (Number)
+- `enforce_eager` (Boolean)
+- `gpu_memory_utilization` (Number)
 - `health_route` (String)
 - `kv_cache_dtype` (String)
+- `max_model_len` (Number)
 - `max_num_batched_tokens` (Number)
 - `max_num_seqs` (Number)
 - `port` (Number)
+- `server_args` (List of String)
+- `swap_space` (Number)
 - `tensor_parallel_size` (Number)
