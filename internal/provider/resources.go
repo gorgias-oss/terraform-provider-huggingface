@@ -836,6 +836,16 @@ func providerEndpointToUpdateEndpointRequest(endpoint endpointResourceModel) hug
 	return huggingfaceEndpoint
 }
 
+func preserveWriteOnlyVllmServerArgs(state, previous endpointResourceModel) endpointResourceModel {
+	if state.Model.Image.Vllm == nil || previous.Model.Image.Vllm == nil || state.Model.Image.Vllm.ServerArgs != nil {
+		return state
+	}
+
+	// Hugging Face accepts serverArgs but omits it from endpoint responses.
+	state.Model.Image.Vllm.ServerArgs = previous.Model.Image.Vllm.ServerArgs
+	return state
+}
+
 func (r *endpointResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var plan endpointResourceModel
 	diags := req.Plan.Get(ctx, &plan)
@@ -879,9 +889,10 @@ func (r *endpointResource) Create(ctx context.Context, req resource.CreateReques
 		return
 	}
 
-	plan = clientEndpointToProviderEndpoint(createdEndpoint)
+	state := clientEndpointToProviderEndpoint(createdEndpoint)
+	state = preserveWriteOnlyVllmServerArgs(state, plan)
 
-	diags = resp.State.Set(ctx, plan)
+	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -911,7 +922,7 @@ func (r *endpointResource) Read(ctx context.Context, req resource.ReadRequest, r
 		}
 	}
 
-	state = clientEndpointToProviderEndpoint(endpoint)
+	state = preserveWriteOnlyVllmServerArgs(clientEndpointToProviderEndpoint(endpoint), state)
 
 	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -939,9 +950,10 @@ func (r *endpointResource) Update(ctx context.Context, req resource.UpdateReques
 		return
 	}
 
-	plan = clientEndpointToProviderEndpoint(updatedEndpoint)
+	state := clientEndpointToProviderEndpoint(updatedEndpoint)
+	state = preserveWriteOnlyVllmServerArgs(state, plan)
 
-	diags = resp.State.Set(ctx, plan)
+	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
