@@ -837,12 +837,30 @@ func providerEndpointToUpdateEndpointRequest(endpoint endpointResourceModel) hug
 }
 
 func preserveWriteOnlyVllmServerArgs(state, previous endpointResourceModel) endpointResourceModel {
-	if state.Model.Image.Vllm == nil || previous.Model.Image.Vllm == nil || state.Model.Image.Vllm.ServerArgs != nil {
+	if state.Model.Image.Vllm == nil || previous.Model.Image.Vllm == nil {
 		return state
 	}
 
-	// Hugging Face accepts serverArgs but omits it from endpoint responses.
-	state.Model.Image.Vllm.ServerArgs = previous.Model.Image.Vllm.ServerArgs
+	// Hugging Face accepts these settings but omits them from endpoint responses.
+	vllm, prev := state.Model.Image.Vllm, previous.Model.Image.Vllm
+	if vllm.ServerArgs == nil {
+		vllm.ServerArgs = prev.ServerArgs
+	}
+	if vllm.KvCacheDtype == nil {
+		vllm.KvCacheDtype = prev.KvCacheDtype
+	}
+	if vllm.TensorParallelSize == nil {
+		vllm.TensorParallelSize = prev.TensorParallelSize
+	}
+	if vllm.MaxModelLen == nil {
+		vllm.MaxModelLen = prev.MaxModelLen
+	}
+	if vllm.MaxNumSeqs == nil {
+		vllm.MaxNumSeqs = prev.MaxNumSeqs
+	}
+	if vllm.MaxNumBatchedTokens == nil {
+		vllm.MaxNumBatchedTokens = prev.MaxNumBatchedTokens
+	}
 	return state
 }
 
