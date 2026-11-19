@@ -109,3 +109,45 @@ func TestPreserveWriteOnlyVllmServerArgs(t *testing.T) {
 		})
 	}
 }
+
+func TestPreserveWriteOnlyVllmSettings(t *testing.T) {
+	str := func(v string) *string { return &v }
+	num := func(v int) *int { return &v }
+
+	previous := endpointResourceModel{
+		Model: Model{Image: Image{Vllm: &Vllm{
+			KvCacheDtype:        str("fp8"),
+			TensorParallelSize:  num(1),
+			MaxModelLen:         num(4096),
+			MaxNumSeqs:          num(8),
+			MaxNumBatchedTokens: num(2048),
+		}}},
+	}
+
+	t.Run("response omits settings", func(t *testing.T) {
+		state := endpointResourceModel{Model: Model{Image: Image{Vllm: &Vllm{}}}}
+
+		actual := preserveWriteOnlyVllmServerArgs(state, previous).Model.Image.Vllm
+		if !reflect.DeepEqual(actual, previous.Model.Image.Vllm) {
+			t.Fatalf("vllm settings are %#v, want %#v", actual, previous.Model.Image.Vllm)
+		}
+	})
+
+	t.Run("response returns settings", func(t *testing.T) {
+		state := endpointResourceModel{
+			Model: Model{Image: Image{Vllm: &Vllm{
+				KvCacheDtype:        str("auto"),
+				TensorParallelSize:  num(2),
+				MaxModelLen:         num(8192),
+				MaxNumSeqs:          num(16),
+				MaxNumBatchedTokens: num(4096),
+			}}},
+		}
+		want := *state.Model.Image.Vllm
+
+		actual := preserveWriteOnlyVllmServerArgs(state, previous).Model.Image.Vllm
+		if !reflect.DeepEqual(*actual, want) {
+			t.Fatalf("vllm settings are %#v, want %#v", *actual, want)
+		}
+	})
+}
